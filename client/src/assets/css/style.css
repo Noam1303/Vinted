@@ -1,10 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-
-:root {
-    --range-width: 100px;
-}
-
 body {
 	font-family: 'Roboto', sans-serif;
 }
@@ -25,12 +20,22 @@ header {
 }
 
 .logo {
+    cursor: pointer;
     width: 100px;
     object-fit: contain;
 }
 
 .filtre {
     width: 30vw;
+    margin-left: 50px;
+    margin-right: 30px;
+}
+
+.filtre-not-home {
+    display: flex;
+    width: 30vw;
+    margin-left: 50px;
+    margin-right: 30px;
 }
 
 .glass {
@@ -48,6 +53,21 @@ header {
     justify-content: flex-start;
 }
 
+.glass-not-home {
+    cursor:pointer;
+    height: 30px;
+    color: rgb(204, 203, 203);
+    background-color: rgb(245, 245, 245);
+    border-radius: 5px;
+    width: 3%;
+    padding: 10px;
+    position: relative;
+    top: 20px;
+    right: -10px;
+    display: flex;
+    justify-content: flex-start;
+}
+
 .searchbar {
     caret-color: gray;
     height: 30px;
@@ -60,13 +80,25 @@ header {
     width: 100%;
 }
 
-.searchbar:focus{
+.searchbar-not-home {
+    caret-color: gray;
+    height: 30px;
+    background-color: rgb(245, 245, 245);
+    border: solid transparent 0px;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.searchbar:focus, .searchbar-not-home:focus{
     outline: none;
 }
 
 
 .filtre-prix {
-    margin-left: -28px;
+    margin-left: -30px;
     width: 100%;
     display: flex;
     justify-content: flex-start;
@@ -75,7 +107,7 @@ header {
 
 .checkbox-container {
     display: flex;
-    width: 50%;
+    width: 40%;
 }
 
 input[type="checkbox"] {
@@ -139,14 +171,25 @@ input[type="checkbox"]+label:after {
     box-shadow: 6px 6px 21px -5px rgba(0, 0, 0, 0.61);
 }
 
+.range-container {
+    position: relative;
+    width: 300px; 
+}
+
 .range {
     margin-left: 10px;
-    width: 55%;
+    width: 100%;
+}
+
+.range-input {
+    width: 100%;
 }
 
 .range-result {
-    top: calc(100px - (var(--range-width))/3);
-    position: relative;
+    position: absolute;
+    top: 30px; /* Positionnez en dessous de l'input */
+    transform: translateX(-50%); /* Centrez le label au-dessus du curseur */
+    white-space: nowrap; 
 }
 
 .connection-button-container {

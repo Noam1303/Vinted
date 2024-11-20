@@ -1,13 +1,13 @@
 import Header from './LogIn/header.jsx'
 import Connection from './LogIn/connection.jsx'
 
-const Login = () => {
+const LogIn = ({user, input, setInput}) => {
     return(
         <nav>
-            <Header></Header>
+            <Header user={user} input={input} setInput={setInput}></Header>
             <Connection></Connection>
         </nav>
     )
 }
 
-export default Login;
+export default LogIn;

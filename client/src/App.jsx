@@ -42,7 +42,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home user={user} data={data} setData={setData} input={input} setInput={setInput} isChecked={isChecked} setIsChecked={setIsChecked} range={range} setRange={setRange} />}/>
           <Route path="/signup" element={<SignUp/>}/>
-          <Route path="/login" elemnt={<LogIn/>}/>
+          <Route path="/login" element={<LogIn user={user} data={data} input={input} setInput={setInput}/>}/>
           <Route path="/publish" element={<Publish/>}/>
           <Route path="/offer/:id" element={<Offer/>}/>
           <Route path="/payement" element={<Payment/>}/>

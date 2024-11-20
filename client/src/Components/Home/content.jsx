@@ -1,6 +1,4 @@
-const Content = ({data, input, range}) => {   
-    console.log(data);
-    
+const Content = ({data, input, range}) => {       
     return(
         <div className="content-home-container">
             <div className="content-home-container-snd">
