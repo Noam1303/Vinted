@@ -23,14 +23,17 @@ function App() {
 
 
   const fetchData = async() => {
-    const response = await axios.get('https://lereacteur-vinted-api.herokuapp.com/v2/offers')
-    setData(response.data)    
-    setUser(data)
+    const response = await axios.get('http://localhost:8000/offers')
+    const sortedData = {
+      ...response.data,
+      offers: response.data.sort((a, b) => a.product_price - b.product_price),
+    };
+    setData(sortedData)    
     setLoading(true)
   }
 
   useEffect(() => {
-    fetchData()    
+    fetchData()  
   }, [])
 
   return (

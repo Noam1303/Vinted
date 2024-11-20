@@ -4,12 +4,6 @@ import { useEffect } from 'react'
 
 const Header = ({user, input, setInput, isChecked, setIsChecked, data, setData, range, setRange}) => {
 
-        data.offers.sort((a,b) => {
-            if(a.product_price>b.product_pictures) return 1;
-            if(a.product_price<b.product_price) return -1;
-            return 0;
-        })
-
     const handleChange = (e) => {
         e.preventDefault();
         setInput(e.target.value);
@@ -18,50 +12,17 @@ const Header = ({user, input, setInput, isChecked, setIsChecked, data, setData, 
     const handleCheck = () => {
         setIsChecked(!isChecked);
 
-        const newData = {...data};
-        newData.offers = [];
+        const newData = [{...data}];
         
-
-        if(!isChecked) {
-            console.log("false");
             if(data !== undefined){                
-                for(let i = 0; i < data.offers.length; i++) {
-                    newData.offers.push(data.offers[i]);
+                for(let i = 0; i < data.length; i++) {
+                    newData.push(data.offers[i]);
                 }
-                
-                newData.offers.sort((a,b) => {
-                    if(a.product_price>b.product_pictures) return -1;
-                    else if(a.product_price<b.product_price) return 1;
-                    else return 0;
+                newData.sort((a,b) => {
+                    return !isChecked ? b.product_price - a.product_price : a.product_price - b.product_price
                 })
-                console.log(newData.offers[0].owner.account.username);
-
-                console.log(data);
-                console.log(newData);
-                
-                
                 setData(newData)
             }
-        }
-        else {
-            console.log("true");
-            if(data !== undefined){                
-                for(let i = 0; i < data.offers.length; i++) {
-                    newData.offers.push(data.offers[i]);
-                }
-                
-                
-                newData.offers.sort((a,b) => {
-                    if(a.product_price>b.product_pictures) return 1;
-                    else if(a.product_price<b.product_price) return -1;
-                    else return 0;
-                })
-                console.log(newData.offers[0].owner.account.username);
-                console.log(data);
-                console.log(newData);
-                setData(newData)
-            }
-        }
     }
 
     const handleRange = (e) => {

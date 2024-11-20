@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+
+:root {
+    --range-width: 100px;
+}
+
 body {
 	font-family: 'Roboto', sans-serif;
 }
@@ -13,7 +18,7 @@ header {
 }
 
 .header-container, .content-home-container-snd {
-    width: 70%;
+    width: 75%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -65,7 +70,7 @@ header {
     width: 100%;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .checkbox-container {
@@ -110,13 +115,17 @@ input[type="checkbox"]+label:before {
 
 input[type="checkbox"]:checked+label.check:after {
     background: rgb(18, 139, 160);
-    content: 'haut';
+    display: flex;
+    justify-content: center;
+    content: '↑';
     transform: translateX(100%);
 }
 
 input[type="checkbox"]+label:after {
-    content: 'bas';
-    display: inline-block;
+    content: '↓';
+    color: white;
+    display: flex;
+    justify-content: center;
     width: 1.3em;
     height: 1.3em;
     background-color: rgb(18, 139, 160);
@@ -131,12 +140,13 @@ input[type="checkbox"]+label:after {
 }
 
 .range {
-    margin-left: 30px;
+    margin-left: 10px;
     width: 55%;
 }
 
 .range-result {
-    width: 5%;
+    top: calc(100px - (var(--range-width))/3);
+    position: relative;
 }
 
 .connection-button-container {
@@ -162,9 +172,6 @@ button {
     border: solid transparent 1px;
 }
 
-.start-sell {
-    width: 200px;
-}
 
 .hero-container {
     height: 50vh;
@@ -197,6 +204,11 @@ button {
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-around;
+}
+
+.start-sell {
+    margin: 0;
+    width: 200px;
 }
 
 .content-home-container {

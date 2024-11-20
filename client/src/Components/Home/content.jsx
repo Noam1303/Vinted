@@ -1,4 +1,6 @@
 const Content = ({data, input, range}) => {   
+    console.log(data);
+    
     return(
         <div className="content-home-container">
             <div className="content-home-container-snd">
@@ -16,13 +18,13 @@ const Content = ({data, input, range}) => {
                                         {result.owner.account.username}
                                     </div>
                                     <div className="item-img-container">
-                                        <img  className="item-img" src={result.product_pictures[0].url} alt="image item" /> 
+                                        <img  className="item-img" src={result.product_image[0].secure_url} alt="image item" /> 
                                     </div>
                                     <div className="item-price">
                                         {result.product_price} €
                                     </div>
                                     <div className="item-taille">
-                                        {result.product_details[1].TAILLE}
+                                        {result.product_details[0].TAILLE}
                                     </div>
                                     <div className="item-brand">
                                         {result.product_details[0].MARQUE}
