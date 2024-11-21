@@ -1,10 +1,10 @@
 import Header from './Publish/header.jsx'
 import Content from './Publish/content.jsx'
 
-const Publish = () => {
+const Publish = ({Cookies, user, setUser}) => {
     return(
         <nav>
-            <Header></Header>
+            <Header Cookies={Cookies} user={user} setUser={setUser}></Header>
             <Content></Content>
         </nav>
     )

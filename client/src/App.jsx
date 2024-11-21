@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import axios from 'axios'
+import Cookies from "js-cookie";
+
 
 import './assets/css/reset.css'
 import './assets/css/style.css'
@@ -21,6 +23,14 @@ function App() {
   const [isChecked, setIsChecked] = useState(false)
   const [range, setRange] = useState([0, 100])
 
+  useEffect(() => {
+    if(localStorage.getItem("user") !== "" && localStorage.getItem("user") !== null) {
+      setUser(localStorage.getItem("user"))
+      console.log(localStorage.getItem("user"));
+    }
+    else console.log("no user found");
+    
+  }, [])
 
   const fetchData = async() => {
     const response = await axios.get('http://localhost:8000/offers')
@@ -40,12 +50,12 @@ function App() {
     <Router>
       {loading ? 
         <Routes>
-          <Route path="/" element={<Home user={user} data={data} setData={setData} input={input} setInput={setInput} isChecked={isChecked} setIsChecked={setIsChecked} range={range} setRange={setRange} />}/>
-          <Route path="/signup" element={<SignUp user={user} setUser={setUser}  />}/>
-          <Route path="/login" element={<LogIn user={user} data={data} input={input} setInput={setInput}/>}/>
-          <Route path="/publish" element={<Publish/>}/>
-          <Route path="/offer/:id" element={<Offer/>}/>
-          <Route path="/payement" element={<Payment/>}/>
+          <Route path="/" element={<Home Cookies={Cookies} user={user} setUser={setUser} data={data} setData={setData} input={input} setInput={setInput} isChecked={isChecked} setIsChecked={setIsChecked} range={range} setRange={setRange} />}/>
+          <Route path="/signup" element={<SignUp Cookies={Cookies} user={user} setUser={setUser}  />}/>
+          <Route path="/login" element={<LogIn Cookies={Cookies} user={user} setUser={setUser} data={data} input={input} setInput={setInput}/>}/>
+          <Route path="/publish" element={<Publish Cookies={Cookies} user={user} setUser={setUser} />}/>
+          <Route path="/offer/:id" element={<Offer Cookies={Cookies} user={user} setUser={setUser}/>}/>
+          <Route path="/payement" element={<Payment Cookies={Cookies} user={user} setUser={setUser}/>}/>
         </Routes>
       :
       "loading..."

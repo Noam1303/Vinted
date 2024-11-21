@@ -4,7 +4,7 @@ import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 
 
-const Header = ({user, input, setInput, isChecked, setIsChecked, data, setData, range, setRange}) => {
+const Header = ({Cookies, user, setUser, input, setInput, isChecked, setIsChecked, data, setData, range, setRange}) => {
 
     const navigate = useNavigate();
 
@@ -115,7 +115,7 @@ const Header = ({user, input, setInput, isChecked, setIsChecked, data, setData, 
                 </div>
                 ) : (
                 <div className="connection-button-container">
-                    <button className="deconnection-button">Se déconnecter</button>
+                    <button className="deconnection-button" onClick={() => {Cookies.remove('token'); setUser([]); localStorage.clear()}}>Se déconnecter</button>
                 </div>
                 )}
                 <button className="vends" onClick={() => {user.length !== 0 ? navigate('/publish') : navigate('/login')}}>Vends tes articles</button>

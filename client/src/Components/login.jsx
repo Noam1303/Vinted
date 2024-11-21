@@ -1,11 +1,11 @@
 import Header from './LogIn/header.jsx'
 import Connection from './LogIn/connection.jsx'
 
-const LogIn = ({user, input, setInput}) => {
+const LogIn = ({Cookies, user, setUser, input, setInput}) => {
     return(
         <nav>
-            <Header user={user} input={input} setInput={setInput}></Header>
-            <Connection></Connection>
+            <Header Cookies={Cookies} user={user} setUser={setUser} input={input} setInput={setInput}></Header>
+            <Connection Cookies={Cookies} setUser={setUser}></Connection>
         </nav>
     )
 }

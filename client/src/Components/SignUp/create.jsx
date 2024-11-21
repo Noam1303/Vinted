@@ -1,10 +1,9 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from 'axios'
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 
-const Create = ({setUser}) => {
+const Create = ({Cookies, setUser}) => {
 
     const navigate = useNavigate()
 
@@ -20,11 +19,13 @@ const Create = ({setUser}) => {
                     username: name.value, email: mail.value, password: password.value, newsletter: checkbox.checked
                 })
                 if(response.status === 200){
-                    Cookies.set("token", response.data.token)
+                    Cookies.set("token", response.data.token, {expires: 7})
                     console.log(Cookies.get('token')+" Cookies");
                     console.log("signup complete");
                     const newUser = [response.data.account.username, mail.value];
                     console.log(newUser);
+                    localStorage.clear();
+                    localStorage.setItem("user", newUser)
                     setUser(newUser)
                     navigate('/')
                 }

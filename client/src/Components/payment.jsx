@@ -1,10 +1,10 @@
 import Header from './Payment/header.jsx'
 import Content from './Payment/content.jsx'
 
-const Payment = () => {
+const Payment = ({Cookies, user, setUser}) => {
     return(
         <nav>
-            <Header></Header>
+            <Header Cookies={Cookies} user={user} setUser={setUser}></Header>
             <Content></Content>
         </nav>
     )

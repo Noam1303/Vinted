@@ -3,7 +3,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom"
 
 
-const Header = ({user, input, setInput}) => {
+const Header = ({Cookies, user, setUser, input, setInput}) => {
 
     const navigate = useNavigate()
 
@@ -34,7 +34,7 @@ const Header = ({user, input, setInput}) => {
                 </div>
                 ) : (
                 <div className="connection-button-container">
-                    <button className="deconnection-button">Se déconnecter</button>
+                    <button className="deconnection-button" onClick={() => {Cookies.remove('token'); setUser([]); localStorage.clear()}}>Se déconnecter</button>
                 </div>
                 )}
                 <button className="vends" onClick={() => {user.length !== 0 ? navigate('/publish') : navigate('/login')}}>Vends tes articles</button>

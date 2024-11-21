@@ -1,11 +1,11 @@
 import Header from './SignUp/header.jsx'
 import Create from './SignUp/create.jsx'
 
-const SignUp = ({user, setUser}) => {
+const SignUp = ({Cookies, user, setUser}) => {
     return(
         <nav>
-            <Header user={user}></Header>
-            <Create setUser={setUser}></Create>
+            <Header Cookies={Cookies} user={user} setUser={setUser}></Header>
+            <Create Cookies={Cookies} setUser={setUser}></Create>
         </nav>
     )
 }
