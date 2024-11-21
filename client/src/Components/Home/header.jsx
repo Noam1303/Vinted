@@ -115,7 +115,7 @@ const Header = ({Cookies, user, setUser, input, setInput, isChecked, setIsChecke
                 </div>
                 ) : (
                 <div className="connection-button-container">
-                    <button className="deconnection-button" onClick={() => {Cookies.remove('token'); setUser([]); localStorage.clear()}}>Se déconnecter</button>
+                    <button className="deconnection-button" onClick={() => {Cookies.remove('token'); setUser([])}}>Se déconnecter</button>
                 </div>
                 )}
                 <button className="vends" onClick={() => {user.length !== 0 ? navigate('/publish') : navigate('/login')}}>Vends tes articles</button>

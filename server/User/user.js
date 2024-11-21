@@ -85,6 +85,41 @@ router.post("/user/signup", fileUpload(), async(req, res) => {
     }
 })
 
+router.get("/user/:token", async(req, res) => {
+    try{
+        const token = req.params.token
+        if(token && token.trim() !== ""){
+            console.log(token);
+            const result = await User.findOne({token: token});
+            console.log(result);
+            if(result) {
+                res.status(200).json({
+                    _id: result._id,
+                    token: result.token,
+                    account:{
+                                username: result.account.username
+                            }
+                })
+                return;
+            }
+            else {
+                res.status(404).json({message: "User not found"});
+                return;
+            }
+        }
+        else {
+            res.status(400).json({message: "Token manquant"})
+            return;
+        }
+        
+        
+    }
+    catch(error){
+        console.error(error);
+        res.status(500).json({message: "Erreur lors de la récupération du token"})
+    }
+})
+
 
 router.post("/user/login", async(req, res) => {
     try{

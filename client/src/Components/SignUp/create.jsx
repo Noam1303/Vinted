@@ -20,13 +20,16 @@ const Create = ({Cookies, setUser}) => {
                 })
                 if(response.status === 200){
                     Cookies.set("token", response.data.token, {expires: 7})
-                    console.log(Cookies.get('token')+" Cookies");
-                    console.log("signup complete");
-                    const newUser = [response.data.account.username, mail.value];
-                    console.log(newUser);
-                    localStorage.clear();
-                    localStorage.setItem("user", newUser)
-                    setUser(newUser)
+                    const token = Cookies.get("token");
+                    if(token){
+                        const response = await axios.get("http://localhost:8000/user/"+Cookies.get("token"))
+                        const result = [response.data._id, response.data.account.username]
+                        console.log(result);
+                        setUser(result)
+                    }
+                    else {
+                        console.log("token not found");
+                    }
                     navigate('/')
                 }
                 else alert("l'utilisateur existe déjà")

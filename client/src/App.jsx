@@ -24,12 +24,25 @@ function App() {
   const [range, setRange] = useState([0, 100])
 
   useEffect(() => {
-    if(localStorage.getItem("user") !== "" && localStorage.getItem("user") !== null) {
-      setUser(localStorage.getItem("user"))
-      console.log(localStorage.getItem("user"));
+    const fetchUser = async () => {
+      try{
+          const token = Cookies.get("token");
+          if(token){
+            const response = await axios.get("http://localhost:8000/user/"+Cookies.get("token"))
+            const result = [response.data._id, response.data.account.username]
+            console.log(result);
+            setUser(result)
+          }
+          else {
+            console.log("token not found");
+          }
+      }
+      catch(error){
+        console.log(error);
+        
+      }
     }
-    else console.log("no user found");
-    
+    fetchUser()
   }, [])
 
   const fetchData = async() => {
