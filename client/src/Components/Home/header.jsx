@@ -88,7 +88,7 @@ const Header = ({user, input, setInput, isChecked, setIsChecked, data, setData, 
                     <div className="filtre-prix">
                         <div className="checkbox-container">
                             Trier par prix: 
-                            <input onChange={handleCheck} type="checkbox" />
+                            <input className="handleCheck" onChange={handleCheck} type="checkbox" />
                             <label className="check"></label>
                         </div>
                         <div className="range-container">
@@ -108,7 +108,7 @@ const Header = ({user, input, setInput, isChecked, setIsChecked, data, setData, 
                         </div>
                     </div>
                 </div>
-                {user === undefined ? (
+                {user.length === 0 ? (
                 <div className="connection-button-container">
                     <button className="connection-button" onClick={() => {navigate('/signup')}}>S'inscrire</button>
                     <button className="connection-button" onClick={() => {navigate('/login')}}>Se connecter</button>
@@ -118,7 +118,7 @@ const Header = ({user, input, setInput, isChecked, setIsChecked, data, setData, 
                     <button className="deconnection-button">Se déconnecter</button>
                 </div>
                 )}
-                <button className="vends" onClick={() => {user ? navigate('/publish') : navigate('/login')}}>Vends tes articles</button>
+                <button className="vends" onClick={() => {user.length !== 0 ? navigate('/publish') : navigate('/login')}}>Vends tes articles</button>
             </div>
         </header>
     );

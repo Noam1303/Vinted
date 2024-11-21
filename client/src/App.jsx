@@ -14,7 +14,7 @@ import Payment from './Components/payment.jsx'
 
 function App() {
 
-  const [user, setUser] = useState(undefined)
+  const [user, setUser] = useState([])
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState(undefined)
   const [input, setInput] = useState("")
@@ -41,7 +41,7 @@ function App() {
       {loading ? 
         <Routes>
           <Route path="/" element={<Home user={user} data={data} setData={setData} input={input} setInput={setInput} isChecked={isChecked} setIsChecked={setIsChecked} range={range} setRange={setRange} />}/>
-          <Route path="/signup" element={<SignUp/>}/>
+          <Route path="/signup" element={<SignUp user={user} setUser={setUser}  />}/>
           <Route path="/login" element={<LogIn user={user} data={data} input={input} setInput={setInput}/>}/>
           <Route path="/publish" element={<Publish/>}/>
           <Route path="/offer/:id" element={<Offer/>}/>

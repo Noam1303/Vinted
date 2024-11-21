@@ -1,11 +1,11 @@
 import Header from './SignUp/header.jsx'
 import Create from './SignUp/create.jsx'
 
-const SignUp = () => {
+const SignUp = ({user, setUser}) => {
     return(
         <nav>
-            <Header></Header>
-            <Create></Create>
+            <Header user={user}></Header>
+            <Create setUser={setUser}></Create>
         </nav>
     )
 }

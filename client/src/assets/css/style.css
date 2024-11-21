@@ -110,29 +110,30 @@ header {
     width: 40%;
 }
 
-input[type="checkbox"] {
-    margin-left: -30px;
+.handleCheck {
+    margin-left: -40px;
     position: relative;
     z-index: 1;
     top: -10px;
-    left: 30px;
-    width: 60px;
+    left: 45px;
+    width: 50px;
     height: 40px;
     opacity: 0;
 }
 
-input[type="checkbox"]+label {
-    margin-left: -30px;
+.handleCheck+label {
+    margin-top: -0px;
+    margin-left: 3px;
     display: block;
     position: relative;
     margin-bottom: 1.2em;
 }
 
-input[type="checkbox"]:checked+label.check:before {
+.handleCheck:checked+label.check:before {
     background: rgb(20, 168, 194);
 }
 
-input[type="checkbox"]+label:before {
+.handleCheck+label:before {
     content: '';
     display: inline-block;
     width: 2.5em;
@@ -145,7 +146,7 @@ input[type="checkbox"]+label:before {
     transition: all .5s ease;
 }
 
-input[type="checkbox"]:checked+label.check:after {
+.handleCheck:checked+label.check:after {
     background: rgb(18, 139, 160);
     display: flex;
     justify-content: center;
@@ -153,7 +154,7 @@ input[type="checkbox"]:checked+label.check:after {
     transform: translateX(100%);
 }
 
-input[type="checkbox"]+label:after {
+.handleCheck+label:after {
     content: '↓';
     color: white;
     display: flex;
@@ -303,4 +304,70 @@ button {
     object-fit: cover;
 }
 
+.create-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.create-nav{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkbox-container-create {
+    height: 12vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.checkbox-container-create > div {
+    font-size: 20px;
+}
+
+.create-nav{
+    color: gray;
+}
+
+.create-nav> h1 {
+    color: black;
+}
+
+.create-checkbox {
+    -ms-transform: scale(2); /* IE */
+    -moz-transform: scale(2); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(2); /* Opera */
+    transform: scale(2);
+    padding: 10px;  
+    margin: 15px 15px 15px 0px;
+}
+
+
+.create-nav> input[type="text"], .create-nav> input[type="submit"], .create-nav> input[type="password"]{
+    border: solid transparent 0px;
+    margin: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+.create-nav> input[type="text"], .create-nav> input[type="password"] {
+    border-bottom: solid rgb(241, 92, 92) 1px;
+}
+
+.create-nav> input[type="submit"] {
+    border-radius: 5px;
+    background-color: rgb(18, 139, 160);
+    color: white;
+}
+
+.link {
+    font-size: 12px;
+    color: rgb(18, 139, 160);
+    text-decoration: none;
+}
 
