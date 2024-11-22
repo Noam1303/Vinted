@@ -1,15 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom"
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
 
 
-const Header = ({Cookies, user, setUser, input, setInput, isChecked, setIsChecked, data, setData, range, setRange}) => {
+const Header = ({Cookies, user, setUser, input, setInput, isChecked, setIsChecked, range, setRange}) => {
 
     const navigate = useNavigate();
 
-    const rangeRef = useRef(null);
-    const labelRef = useRef(null);
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -18,59 +18,17 @@ const Header = ({Cookies, user, setUser, input, setInput, isChecked, setIsChecke
 
     const handleCheck = () => {
         setIsChecked(!isChecked);
-        const newData = { ...data };
-        if (data !== undefined) {
-            // newData.offers = [...data.offers]; // Copie immuable des offres
-            newData.offers.sort((a, b) =>
-                !isChecked ? b.product_price - a.product_price : a.product_price - b.product_price
-            );
-            setData(newData);
-        }
     };
 
     const handleRange = (e) => {
-        e.preventDefault();
-        setRange([0, e.target.value]);
+        const value1 = e[0]
+        const value2 = e[1]        
+        setRange([value1, value2]);
     };
 
-    const updateLabelPosition = () => {
-        const range = rangeRef.current;
-        const label = labelRef.current;
-
-        if (!range || !label) return;
-
-        const rangeWidth = range.offsetWidth; // Largeur totale de l'input
-        const thumbWidth = 16; // Largeur approximative du curseur (peut varier selon le style ou le navigateur)
-        const min = range.min;
-        const max = range.max;
-        const value = range.value;
-
-        // Calcul de la position relative du curseur
-        const percent = (value - min) / (max - min); // Position en pourcentage (entre 0 et 1)
-        const offset = percent * (rangeWidth - thumbWidth) + thumbWidth / 2;
-
-        // Mise à jour de la position du label
-        label.style.top = '40px'
-        label.style.left = `${offset + 15}px`;
-        label.textContent = `${value} €`; // Affiche la valeur actuelle
-    };
-
-    // Mettre à jour la position lors du rendu initial et à chaque interaction
     useEffect(() => {
-        updateLabelPosition(); // Initialisation
-        const range = rangeRef.current;
-
-        if (range) {
-        range.addEventListener("input", updateLabelPosition);
-        }
-
-        return () => {
-        // Nettoyer l'événement pour éviter les fuites mémoire
-        if (range) {
-            range.removeEventListener("input", updateLabelPosition);
-        }
-        };
-    }, [range]); // Réexécute l'effet si `range` change
+        document.querySelector('.range').textContent = `prix entre: ${range[0]} € et ${range[1]} €`
+    }, [range]);
 
     return (
         <header>
@@ -92,19 +50,8 @@ const Header = ({Cookies, user, setUser, input, setInput, isChecked, setIsChecke
                             <label className="check"></label>
                         </div>
                         <div className="range-container">
-                            <div className="range">Prix entre:
-                            <input
-                                ref={rangeRef}
-                                className="range-input"
-                                type="range"
-                                value={range[1]}
-                                onChange={handleRange}
-                                max="500"
-                            />
-                            </div>
-                            <p ref={labelRef} className="range-result">
-                                {range[1]} €
-                            </p>
+                            <div className="range"/>
+                            <RangeSlider defaultValue={[0, 100]} min={0} max={500} className="range-input" onInput={handleRange}/>
                         </div>
                     </div>
                 </div>

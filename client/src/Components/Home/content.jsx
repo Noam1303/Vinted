@@ -1,14 +1,25 @@
-const Content = ({data, input, range}) => {       
+import { useEffect } from "react";
+import axios from 'axios'
+
+const Content = ({data, setData, isChecked, input, range}) => {
+    
+    useEffect(() => {
+        const fetch = async() => {
+            const query = `?title=${input}&priceMin=${range[0]}&priceMax=${range[1]}&sort=${isChecked ? "price-desc" : "price-asc"}`
+            const response = await axios.get('http://localhost:8000/offers'+query)
+            let newData = {...data}
+            newData.offers = response.data
+            setData(newData)
+        }
+        fetch()
+        
+    }, [range, input, isChecked])
+
     return(
         <div className="content-home-container">
             <div className="content-home-container-snd">
 
             {data.offers.map((result, index) => {
-                const name = result.product_name;
-                if(name !== undefined) {
-                    if(name.includes(input)) {                        
-                        if(range[0] <= result.product_price && range[1] >= result.product_price){
-
                             return(
                                 <div className="item" key={index}>
                                     <div className="item-username">
@@ -29,9 +40,9 @@ const Content = ({data, input, range}) => {
                                     </div>
                                 </div>
                             )
-                        }
-                    }
-                }
+                        
+                    
+                
             })}
             </div>
         </div>
