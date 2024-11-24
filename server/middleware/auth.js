@@ -2,8 +2,11 @@ const User = require('../User/models/User');
 const axios = require('axios');
 
 
-const auth = async(req, res, next) => {
+const auth = async(req, res, next) => {    
+    console.log(req.body);
+    
     if(req.headers.authorization){
+        
         const user = await User.findOne({
             token: req.headers.authorization.replace('Bearer ','')
         })

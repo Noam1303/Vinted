@@ -5,7 +5,7 @@ const Publish = ({Cookies, user, setUser}) => {
     return(
         <nav>
             <Header Cookies={Cookies} user={user} setUser={setUser}></Header>
-            <Content></Content>
+            <Content user={user}></Content>
         </nav>
     )
 }

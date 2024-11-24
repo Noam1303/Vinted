@@ -29,8 +29,8 @@ router.post('/offer/publish', auth, fileUpload(), async(req, res) => {
         const price = req.body.price;
         const city = req.body.city;
         const brand = req.body.brand;
-        const size = req.body.size;
-        const color = req.body.color;        
+        const size = req.body.size; 
+        const color = req.body.color;              
 
         if(title !== null && description !== null && condition !== null && price !== null && city !== null && brand !== null && size !== null && color !== null) {
             if(title.length > 50 || description.length > 500 || price > 100000){
@@ -38,14 +38,14 @@ router.post('/offer/publish', auth, fileUpload(), async(req, res) => {
                 return;
             }
             const id = password.generate({
-                numbers: true,
+                numbers: true,  
                 lowercase: false, // Exclure les lettres minuscules
                 uppercase: false, // Exclure les lettres majuscules
                 symbols: false,    // Exclure les symboles
                 length: 24,
             })
-            const pictureToUpload = req.files.file;              
-            const result = await cloudinary.uploader.upload(convertToBase64(pictureToUpload), {
+            const pictureToUpload = req.body.file;              
+            const result = await cloudinary.uploader.upload(pictureToUpload, {
                 folder: "Vinted/offer/"+req.user._id,
                 public_id: id
             });
@@ -71,7 +71,7 @@ router.post('/offer/publish', auth, fileUpload(), async(req, res) => {
                 owner: req.user._id,
             })
             await newOffer.save();
-            const offer = await Offer.findById(newOffer._id).populate("owner");
+            const offer = await Offer.findById(newOffer._id);
             res.status(200).json(offer)
         }
     }
@@ -101,10 +101,10 @@ router.get('/offers', async(req, res) => {
             else sortResult = 1;
         }
         if(sortResult === undefined){
-            result = await Offer.find({product_name: {$regex: title||"", $options: 'i'}, product_price: {$gte: priceMin||0, $lt: priceMax||1000001}}).limit(2).skip(pageResult).populate("owner", "account");;
+            result = await Offer.find({product_name: {$regex: title||"", $options: 'i'}, product_price: {$gte: priceMin||0, $lt: priceMax||1000001}}).limit(20).skip(pageResult).populate("owner", "account");;
         }
         else {
-            result = await Offer.find({product_name: {$regex: title||"", $options: 'i'}, product_price: {$gte: priceMin||0, $lt: priceMax||1000001}}).limit(2).skip(pageResult).sort({product_price: sortResult}).populate("owner", "account");
+            result = await Offer.find({product_name: {$regex: title||"", $options: 'i'}, product_price: {$gte: priceMin||0, $lt: priceMax||1000001}}).limit(20).skip(pageResult).sort({product_price: sortResult}).populate("owner", "account");
 
         }
             res.status(200).json(result);
@@ -120,7 +120,7 @@ router.get('/offers/:id', async(req, res) => {
     try{
         const id = req.params.id;        
         if(id !== undefined && id.length === 24){
-            const offers = await Offer.findById(id);
+            const offers = await Offer.findById(id).populate('owner');
             if(offers !== null){
                 res.status(200).json(offers);
             }

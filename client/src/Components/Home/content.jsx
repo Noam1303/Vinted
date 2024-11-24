@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import axios from 'axios'
+import { useNavigate } from "react-router-dom"
+
 
 const Content = ({data, setData, isChecked, input, range}) => {
+
+    const navigate = useNavigate()
     
     useEffect(() => {
         const fetch = async() => {
@@ -15,11 +19,15 @@ const Content = ({data, setData, isChecked, input, range}) => {
         
     }, [range, input, isChecked])
 
+    const handleClick = (id) => {
+        navigate(`/offer/${id}`)
+    }
+
     return(
         <div className="content-home-container">
             <div className="content-home-container-snd">
 
-            {data.offers.map((result, index) => {
+            {data.offers.map((result, index) => {                
                             return(
                                 <div className="item" key={index}>
                                     <div className="item-username">
@@ -27,7 +35,7 @@ const Content = ({data, setData, isChecked, input, range}) => {
                                         {result.owner.account.username}
                                     </div>
                                     <div className="item-img-container">
-                                        <img  className="item-img" src={result.product_image[0].secure_url} alt="image item" /> 
+                                        <img  className="item-img" src={result.product_image[0].secure_url} alt="image item" onClick={() => {handleClick(result._id)}} /> 
                                     </div>
                                     <div className="item-price">
                                         {result.product_price} €

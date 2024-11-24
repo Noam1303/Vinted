@@ -29,7 +29,7 @@ function App() {
           const token = Cookies.get("token");
           if(token){
             const response = await axios.get("http://localhost:8000/user/"+Cookies.get("token"))
-            const result = [response.data._id, response.data.account.username]
+            const result = [response.data._id, response.data.account.username, response.data.token]
             console.log(result);
             setUser(result)
           }

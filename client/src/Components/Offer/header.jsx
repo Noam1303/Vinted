@@ -16,7 +16,7 @@ const Header = ({Cookies, user, setUser, input, setInput}) => {
     return (
         <header>
             <div className="header-container">
-                <img src="logo.png" alt="Vinted logo" className="logo" onClick={() => {navigate('/')}} />
+                <img src="../logo.png" alt="Vinted logo" className="logo" onClick={() => {navigate('/')}} />
                 <div className="filtre-not-home">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="glass-not-home" />
                     <input

@@ -211,7 +211,7 @@ button {
     border: solid rgb(18, 139, 160) 1px
 }
 
-.vends, .start-sell {
+.vends, .start-sell, .acheter {
     color: white;
     background-color: rgb(18, 139, 160);
     border: solid transparent 1px;
@@ -231,7 +231,7 @@ button {
 
 .dechirure {
     position: relative;
-    top: -99px
+    top: -90px
 }
 
 .tri {
@@ -371,4 +371,149 @@ button {
     color: rgb(18, 139, 160);
     text-decoration: none;
 }
+
+.content-offer-container {
+    height: calc(90vh - 7px);
+    background-color: rgb(202, 201, 201);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.item-single {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-around;
+    width: 60vw;
+    height: 60vh;
+}
+
+.item-single-img {
+    object-fit: cover;
+    height: 100%;
+}
+
+.item-single-price {
+    font-size: 25px;
+}
+
+.item-single-content-container {
+    padding: 40px;
+    margin-left: 10px;
+    width: 300px;
+    background-color: white;
+}
+
+.details {
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-bottom: solid gray 1px;
+}
+
+.details-detail {
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+}
+
+.marque, .couleur, .taille, .etat, .emplacement {
+    margin-top: 7px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.marque > p, .couleur > p, .taille > p, .etat > p, .emplacement > p {
+    width: 50%;
+    color: rgb(175, 175, 175);
+}
+
+.marque > h4, .couleur > h4, .taille > h4, .etat > h4, .emplacement > h4 {
+    width: 50%;
+    color: rgb(92, 91, 91);
+}
+
+.item-product-description {
+    color: gray;
+    width: 310px;
+    word-wrap: break-word;
+}
+
+.details-description {
+    height: 60%;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.details-description > div > div{
+    margin-top: 20px;
+}
+
+.details-description > div {
+    margin-top: 10px;
+}
+
+.acheter {
+    display: flex;
+    margin: 0;
+    margin-top: 60px;
+    width: 70%;
+    justify-content: center;
+}
+
+.content-publish-container {
+    background-color: rgb(202, 201, 201);
+    height: calc(90vh - 7px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.content-publish-form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-publish-form  > h4{
+    margin-bottom: 10px;
+}
+
+.file-upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    width: 80vw;
+    height: 30vh;
+}
+
+.file-upload > button {
+    display: flex;
+    font-size: 18px;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+    width: 200px;
+}
+
+.title-publish, .file-upload, .detail-publish, .price-publish {
+    background-color: white;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.title-publish > div, .file-upload > div, .detail-publish > div, .price-publish > div {
+    display: flex;
+}
+
+.title-publish > div > div, .file-upload > div > div, .detail-publish > div > div, .price-publish > div > div {
+    width: 50%;
+}
+
+
 
