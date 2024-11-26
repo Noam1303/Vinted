@@ -68,7 +68,7 @@ function App() {
           <Route path="/login" element={<LogIn Cookies={Cookies} user={user} setUser={setUser} data={data} input={input} setInput={setInput}/>}/>
           <Route path="/publish" element={<Publish Cookies={Cookies} user={user} setUser={setUser} />}/>
           <Route path="/offer/:id" element={<Offer Cookies={Cookies} user={user} setUser={setUser}/>}/>
-          <Route path="/payement" element={<Payment Cookies={Cookies} user={user} setUser={setUser}/>}/>
+          <Route path="/payment" element={<Payment Cookies={Cookies} user={user} setUser={setUser}/>}/>
         </Routes>
       :
       "loading..."

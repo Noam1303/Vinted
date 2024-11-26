@@ -211,7 +211,7 @@ button {
     border: solid rgb(18, 139, 160) 1px
 }
 
-.vends, .start-sell, .acheter {
+.vends, .start-sell, .acheter, .publier {
     color: white;
     background-color: rgb(18, 139, 160);
     border: solid transparent 1px;
@@ -259,6 +259,8 @@ button {
 .content-home-container {
     width: 100%;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     flex-wrap: wrap;
 }
@@ -389,8 +391,27 @@ button {
 }
 
 .item-single-img {
+    display: flex;
+    flex-wrap: wrap;
+    width: 40%;
+}
+
+.item-single-img-item:nth-child(1) {
+    width: 100%;
     object-fit: cover;
-    height: 100%;
+
+}
+
+.item-single-img-item:nth-child(2) {
+    width: 50%;
+    object-fit: cover;
+
+}
+
+.item-single-img-item:nth-child(3) {
+    width: 50%;
+    object-fit: cover;
+
 }
 
 .item-single-price {
@@ -467,10 +488,11 @@ button {
 
 .content-publish-container {
     background-color: rgb(202, 201, 201);
-    height: calc(90vh - 7px);
+    height: 100%;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .content-publish-form {
@@ -515,5 +537,111 @@ button {
     width: 50%;
 }
 
+.title-publish-input, .description-publish-input, .marque-publish-input, 
+.size-publish-input, .couleur-publish-input, .condition-publish-input, 
+.emplacement-publish-input, .price-publish-input {
+    background-color: white;
+    border: solid transparent;
+    border-bottom: solid rgb(226, 224, 224) 1px; 
+    width: 30vw;
+    font-size: 20px;
+}
+
+.title-publish-input::placeholder, .description-publish-input::placeholder, .marque-publish-input::placeholder,
+.size-publish-input::placeholder, .couleur-publish-input::placeholder, .condition-publish-input::placeholder, 
+.emplacement-publish-input::placeholder, .price-publish-input::placeholder {
+    color: rgb(216, 214, 214);
+}
+
+.description-publish-input {
+    height: 20vh;
+}
+
+.description-publish-input::placeholder {
+    display: flex;
+    align-items: flex-start;
+}
+
+.publier-button {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dropzone > section{
+    display: flex;
+    align-items: center;
+}
+
+.payment-container {
+    background-color: rgb(231, 229, 229);
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    min-height: calc(90vh - 7px);
+    height: calc(90% - 7px);
+}
+
+.payment-form {
+    padding: 40px;
+    height: 80%;
+    width: 20vw;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.payment-form > h4 {
+    margin: 10px;
+    margin-bottom: 30px;
+    color: rgb(202, 201, 201);
+    font-weight: 100;
+}
+
+.payment-form > div {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.payment-form > section {
+    margin: 10px;
+    margin-left: -40px;
+    border: solid rgb(231, 229, 229) 1px;
+    border-bottom: rgb(231, 229, 229);
+    width: 40vw;
+}
+
+.payment-form > nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.green {
+    margin: 0;
+    margin-top: 10px;
+    background-color: rgb(11, 197, 11);
+    color: white;
+    width: 100%;
+    padding: 10px;
+}
+
+.page-container {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.page {
+    margin: 3;
+    background-color: rgb(233, 231, 231);
+    color: black;
+    width: 30px;
+    height: 30px;
+    border: solid transparent 0px;
+}
 
 

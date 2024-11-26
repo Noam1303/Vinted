@@ -3,12 +3,13 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Dropzone from 'react-dropzone'
 
 const Content = ({user}) => {
 
     const navigate = useNavigate();
 
-    const [file, setFile] = useState("");
+    const [file, setFile] = useState([]);
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
@@ -19,15 +20,27 @@ const Content = ({user}) => {
     const [emplacement, setEmplacement] = useState("");
     const [check, setCheck] = useState(false);
 
-    const handleChangeFile = (e) => {
-        const file = e.target.files[0]; // Récupérer le fichier
-        if (file) {
+    const handleChangeFile = (File) => {
+        
+        if (File) {
+            if (File.type !== "image/jpeg" && File.type !== "image/png") {
+                alert("File Type is not an image");
+                return
+            } 
+            if(file.length >= 3){
+                alert("Vous ne pouvez pas ajouter plus de 3 images");
+                return
+            }
+            console.log(File);
+            
             const reader = new FileReader(); // Créer une instance FileReader
             reader.onload = () => {
-                setFile(reader.result); // Stocker la chaîne Base64 dans le state
+                console.log("image stocked" + reader.result);
+                const result = [...file];
+                result.push(reader.result);                              
+                setFile(result); // Stocker la chaîne Base64 dans le state
             };
-            reader.readAsDataURL(file); // Lire le fichier en Base64
-            document.querySelector('.file-name').textContent = file.name
+            reader.readAsDataURL(File); // Lire le fichier en Base64
         }
     };
 
@@ -76,10 +89,19 @@ const Content = ({user}) => {
         setCheck(check)
     }
 
-    const handleSubmit = async () => {        
-        if (file && title && description && price && marque && size && condition && couleur && emplacement) {
+    const handleSubmit = async () => {                
+        if (file.length !== 0 && title && description && price && marque && size && condition && couleur && emplacement) {
             const formData = new FormData();
-            formData.append('file', file);            
+            if(file.length === 1) {
+                file.push([null, null, null, null])
+                file.push([null, null, null, null])
+            }
+            else if (file.length === 2) {
+                file.push([null, null, null, null])
+            }
+            formData.append('file1', file[0]);    
+            formData.append('file2', file[1]);  
+            formData.append('file3', file[2]);          
             formData.append('title', title);
             formData.append('description', description);
             formData.append('price', price);
@@ -96,7 +118,7 @@ const Content = ({user}) => {
                 const response = await axios.post("http://localhost:8000/offer/publish", formData, {
                     headers: {
                         'Authorization': token,
-                        'Content-Type': 'multipart/form-data',  // Assure-toi que le Content-Type est multipart/form-data
+                        'Content-Type': 'multipart/form-data',
                     }
                 });
     
@@ -124,15 +146,30 @@ const Content = ({user}) => {
             <h4>
                 Vends ton article 
             </h4>
-                    <div className="file-upload" onClick={() => {document.querySelector('.file').click()}}>
-                        <div className="file-name">
-
-                        </div>
-                        <button>
-                            <FontAwesomeIcon icon={faPlus} className="fa-2x"/>
-                            Ajoute une photo
-                            <input className="file" type="file" onChange={handleChangeFile} multiple style={{display: "none", width: "100px"}}/>
-                        </button>
+                    <div className="file-upload">
+                    <Dropzone id="dropzone" type="image/jpeg" onDrop={
+                        (acceptedFiles) => {
+                            acceptedFiles.forEach((file) => {
+                                    handleChangeFile(file)
+                                }
+                            )
+                        }
+                    }>
+                        {({getRootProps, getInputProps}) => (
+                            <section>
+                            <div {...getRootProps()}>
+                                <input {...getInputProps()} />
+                                {file.length !== 0 ?                                 
+                                    file.map((path, index) => 
+                                        <img key={index} src={path} style={{width: "200px"}} />
+                                    )
+                                :
+                                <p>Drag 'n' drop some files here, or click to select files</p>
+                                }
+                            </div>
+                            </section>
+                        )}
+                    </Dropzone>
                     </div>
                     <div className="title-publish">
                         <div>
@@ -208,7 +245,9 @@ const Content = ({user}) => {
                             </div>
                         </div>
                     </div>
-                    <button onClick={handleSubmit} type="submit">Publier</button>
+            <div className="publier-button">
+                    <button onClick={handleSubmit} className="publier" type="submit">Publier</button>
+            </div>
             </div>
         </div>
     )

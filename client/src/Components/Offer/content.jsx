@@ -1,19 +1,20 @@
 import axios from 'axios'
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 const Content = () => {
+
+    const navigate = useNavigate()
 
     const id = useParams().id
 
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
-
     const fetchData = async() => {        
         const response = await axios.get('http://localhost:8000/offers/'+id)
-        console.log(response.data);
         setData(response.data)
         setLoading(true)
+        
     }
 
     useEffect(() => {
@@ -26,9 +27,11 @@ const Content = () => {
                     <div className="item-single">
                         <div className="item-single-img">
                             {data.product_image.map((result, index) => {
-                                return(
-                                    <img key={index} className="item-single-img" src={result.secure_url} alt="image item" />
-                                )
+                                if(result.secure_url !== null){
+                                    return(
+                                        <img key={index} className="item-single-img-item" src={result.secure_url} alt="image item" />
+                                    )
+                                }
                             })}
                         </div>
                         <div className="item-single-content-container">
@@ -86,11 +89,22 @@ const Content = () => {
                                     </div>
                                     <div className="item-product-description">{data.product_description}</div>
                                     <div>
-                                        {data.owner.account.avatar? <img  className="user-avatar" src={data.owner.account.avatar.url} alt="avatar user" /> : ""}
+                                        {data.owner.account.avatar? <img  className="user-avatar" src={data.owner.account.avatar.secure_url} alt="avatar user" /> : ""}
                                         {data.owner.account.username}
                                     </div>
                                 </div>
-                                <button className='acheter' onClick={console.log("click")}>Acheter</button>
+                                <button className='acheter' onClick={() => {navigate('/payment', {
+                                    state: {
+                                        id: id,
+                                        username: data.owner.account.username,
+                                        product_name: data.product_name,
+                                        product_price: Number(data.product_price),
+                                        product_description: data.product_description,
+                                        product_details: data.product_details,
+                                        product_image: data.product_image,
+                                    }})}}>
+                                Acheter
+                                </button>
                             </div>
                         </div>
                         

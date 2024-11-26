@@ -4,12 +4,19 @@ const router = express.Router();
 const password = require("generate-password");
 require('dotenv').config(); 
 
+const cors = require("cors");
+
+router.use(cors());
+router.use(express.json());
+
 const Offer = require('./models/Offer');
 const auth = require('../middleware/auth');
 const User = require('../User/models/User');
 
 const fileUpload = require("express-fileupload");
 const { request } = require('http');
+
+const stripe = require("stripe")(process.env.STRIPE);
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -20,6 +27,28 @@ cloudinary.config({
 const convertToBase64 = (file) => {
     return `data:${file.mimetype};base64,${file.data.toString("base64")}`;
 }
+
+router.post("/payment", async (req, res) => {
+    try {
+        console.log(req.amount);
+        
+        // On crée une intention de paiement
+        const paymentIntent = await stripe.paymentIntents.create({
+            // Montant de la transaction
+            amount: req.body.amount,
+            // Devise de la transaction
+            currency: req.body.currency,
+            // Description du produit
+            description: req.body.amount,
+        });
+        // On renvoie les informations de l'intention de paiement au client
+        res.json(paymentIntent);
+        } catch (error) {
+            console.log(error);
+            
+        res.status(500).json({ message: error.message });
+        }
+});
 
 router.post('/offer/publish', auth, fileUpload(), async(req, res) => {
     try{    
@@ -44,11 +73,47 @@ router.post('/offer/publish', auth, fileUpload(), async(req, res) => {
                 symbols: false,    // Exclure les symboles
                 length: 24,
             })
-            const pictureToUpload = req.body.file;              
-            const result = await cloudinary.uploader.upload(pictureToUpload, {
-                folder: "Vinted/offer/"+req.user._id,
-                public_id: id
-            });
+            const pictureToUpload = [req.body.file1, req.body.file2, req.body.file3]            
+            const picture = []
+            for(let i = 0; i < 3; i++){
+                const idImage = password.generate({
+                    numbers: true,  
+                    lowercase: false, // Exclure les lettres minuscules
+                    uppercase: false, // Exclure les lettres majuscules
+                    symbols: false,    // Exclure les symboles
+                    length: 24,
+                })                
+                if(pictureToUpload[i] !== ',,,'){
+                    const result = await cloudinary.uploader.upload(pictureToUpload[i], {
+                        folder: "Vinted/offer/"+req.user._id+id,
+                        public_id: idImage
+                    });
+                    picture.push([result.public_id, result.secure_url, result.width, result.height])
+                }
+                else {
+                    picture.push([null, null, null, null])
+                }             
+            }                       
+            const product_image = [
+                {
+                    cloud_id: picture[0][0],
+                    secure_url: picture[0][1],
+                    width: picture[0][2],
+                    height: picture[0][3]
+                },
+                {
+                    cloud_id: picture[1][0] || null,
+                    secure_url: picture[1][1] || null,
+                    width: picture[1][2] || null,
+                    height: picture[1][3] || null
+                },
+                {
+                    cloud_id: picture[2][0] || null,
+                    secure_url: picture[2][1] || null,
+                    width: picture[2][2] || null,
+                    height: picture[2][3] || null
+                }
+            ]            
             
             const newOffer = await new Offer({
                 _id: id,
@@ -62,12 +127,7 @@ router.post('/offer/publish', auth, fileUpload(), async(req, res) => {
                     COULEUR: color,
                     EMPLACEMENT: city,
                 },
-                product_image: {
-                    cloud_id: result.public_id,
-                    secure_url: result.secure_url,
-                    width: result.width,
-                    height: result.height,
-                },
+                product_image: product_image,
                 owner: req.user._id,
             })
             await newOffer.save();
@@ -82,14 +142,24 @@ router.post('/offer/publish', auth, fileUpload(), async(req, res) => {
     
 })
 
+router.get('/offerNumber', async(req, res) => {
+    const result = await Offer.find();    
+    const pageLength = Math.ceil(result.length/5)+1
+    res.status(200).json({count: pageLength});
+})
+
 router.get('/offers', async(req, res) => {
     try{
-        const {title, priceMin, priceMax, sort, page} = req.query;
-        let pageResult = 0;
+        let {title, priceMin, priceMax, sort, page} = req.query;  
+        if(page !== null && page !== undefined){
+            page = parseInt(req.query.page.charAt(1))
+        }
+        let pageResult = 1;
         let sortResult = undefined;
+
         let result = "";
         if(page !== null && page !== undefined){
-            pageResult = page*2;
+            pageResult = page*5;                        
         }
         if(sort !== null && sort !== undefined){
             if(sort === "price-desc"){
@@ -101,10 +171,10 @@ router.get('/offers', async(req, res) => {
             else sortResult = 1;
         }
         if(sortResult === undefined){
-            result = await Offer.find({product_name: {$regex: title||"", $options: 'i'}, product_price: {$gte: priceMin||0, $lt: priceMax||1000001}}).limit(20).skip(pageResult).populate("owner", "account");;
+            result = await Offer.find({product_name: {$regex: title||"", $options: 'i'}, product_price: {$gte: priceMin||0, $lt: priceMax||1000001}}).limit(5).skip(pageResult).populate("owner", "account");;
         }
         else {
-            result = await Offer.find({product_name: {$regex: title||"", $options: 'i'}, product_price: {$gte: priceMin||0, $lt: priceMax||1000001}}).limit(20).skip(pageResult).sort({product_price: sortResult}).populate("owner", "account");
+            result = await Offer.find({product_name: {$regex: title||"", $options: 'i'}, product_price: {$gte: priceMin||0, $lt: priceMax||1000001}}).limit(5).skip(pageResult).sort({product_price: sortResult}).populate("owner", "account");
 
         }
             res.status(200).json(result);

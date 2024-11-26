@@ -1,23 +1,49 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
-
+import Dropzone from 'react-dropzone'
 
 const Create = ({Cookies, setUser}) => {
 
     const navigate = useNavigate()
 
+    const [file, setFile] = useState([]);
+
+    const handleChangeFile = (File) => {
+        
+        if (File) {
+            if (File.type !== "image/jpeg" && File.type !== "image/png") {
+                alert("File Type is not an image");
+                return
+            }           
+            const reader = new FileReader(); // Créer une instance FileReader
+            reader.onload = () => {
+                console.log("image stocked" + reader.result);
+                const result = []
+                result.push(reader.result);                              
+                setFile(result); // Stocker la chaîne Base64 dans le state
+            };
+            reader.readAsDataURL(File); // Lire le fichier en Base64
+        }
+    };
 
     const handleSubmit = async() => {
-        const name = document.querySelector(".name");
-        const mail = document.querySelector(".mail");
-        const password = document.querySelector(".password");
-        const checkbox = document.querySelector(".create-checkbox");        
+        const name = document.querySelector(".name").value;
+        const mail = document.querySelector(".mail").value;
+        const password = document.querySelector(".password").value;
+        const checkbox = document.querySelector(".create-checkbox").value;    
+        console.log(checkbox);
+            
         if(name !== undefined && mail !== undefined  && password !== undefined && checkbox !== undefined){
-            if(name.value !== "" && mail.value !== "" && password.value !== ""){                
-                const response = await axios.post('http://localhost:8000/user/signup', {
-                    username: name.value, email: mail.value, password: password.value, newsletter: checkbox.checked
-                })
+            if(name.value !== "" && mail.value !== "" && password.value !== ""){     
+                const formData = new FormData();                
+                formData.append('username', name);    
+                formData.append('email', mail);  
+                formData.append('password', password);          
+                formData.append('newsletter', checkbox);
+                formData.append('file', file);
+                const response = await axios.post('http://localhost:8000/user/signup',formData)
                 if(response.status === 200){
                     Cookies.set("token", response.data.token, {expires: 7})
                     const token = Cookies.get("token");
@@ -30,7 +56,7 @@ const Create = ({Cookies, setUser}) => {
                     else {
                         console.log("token not found");
                     }
-                    navigate('/')
+                    navigate('/publish')
                 }
                 else alert("l'utilisateur existe déjà")
             }
@@ -47,6 +73,29 @@ const Create = ({Cookies, setUser}) => {
                 <input className="name" type="text" placeholder="Nom d'utilisateur" />
                 <input className="mail" type="text" placeholder="Email" />
                 <input className="password" type="password" placeholder="Mot de passe" />
+                <Dropzone id="dropzone" type="image/jpeg" onDrop={
+                        (acceptedFiles) => {
+                            acceptedFiles.forEach((file) => {
+                                    handleChangeFile(file)
+                                }
+                            )
+                        }
+                    }>
+                        {({getRootProps, getInputProps}) => (
+                            <section>
+                            <div {...getRootProps()}>
+                                <input {...getInputProps()} />
+                                {file.length !== 0 ?                                 
+                                    file.map((path, index) => 
+                                        <img  style={{width: "200px"}} key={index} src={path} />
+                                    )
+                                :
+                                <p>Drag 'n' drop some files here, or click to select files</p>
+                                }
+                            </div>
+                            </section>
+                        )}
+                    </Dropzone>
                 <div className="checkbox-container-create">
                     <div>
                         <input className="create-checkbox" type="checkbox" />

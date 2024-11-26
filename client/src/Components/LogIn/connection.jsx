@@ -28,7 +28,7 @@ const Connection = ({Cookies, setUser}) => {
                     else {
                         console.log("token not found");
                     }
-                    navigate('/')
+                    navigate('/publish')
                 }
                 else alert("l'utilisateur existe déjà")
             }

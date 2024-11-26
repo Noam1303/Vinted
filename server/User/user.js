@@ -4,9 +4,13 @@ const router =  express.Router();
 const SHA256 = require('crypto-js/sha256');
 const encBase64 = require('crypto-js/enc-base64');
 const uid2 = require("uid2");
+require('dotenv').config(); 
 const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
+const { request } = require('http');
+
 router.use(express.json());
+
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
@@ -18,17 +22,27 @@ const convertToBase64 = (file) => {
 }
 
 router.post("/user/signup", fileUpload(), async(req, res) => {
-    try{
+    try{        
         const username = req.body.username;
         const email = req.body.email;
         const password = req.body.password;
-        const newsletter = req.body.newsletter;
+        let newsletter = req.body.newsletter;
+        console.log(email);
+
+        if(newsletter === "on") {
+            newsletter = false;
+        }
+        else {
+            newsletter = true;
+        }
+        
         const salt = uid2(16);
         const hash = SHA256(password + salt).toString(encBase64);
         const token = uid2(16);        
         if(username !== null && email !== null && password !== null && newsletter !== null){
-            const userExist = await User.findOne({email: email});
+            const userExist = await User.findOne({email: email});            
             if(userExist){
+                console.log(userExist);                
                 res.status(409).json({message: "an user already exist with this email"})
                 return;
             }
@@ -48,11 +62,11 @@ router.post("/user/signup", fileUpload(), async(req, res) => {
             let pictureToUpload = null;
             let result = null;
             let result2 = null;
-            if(req.files !== null && req.files !== undefined){
-                pictureToUpload = req.files.file;              
-                result = await cloudinary.uploader.upload(convertToBase64(pictureToUpload), {
-                folder: "Vinted/offer/"+newUser._id,
-                public_id: "avatar"
+            if(req.body.file !== null && req.body.file !== undefined){
+                pictureToUpload = req.body.file;              
+                result = await cloudinary.uploader.upload(pictureToUpload, {
+                    folder: "Vinted/user/"+newUser._id,
+                    public_id: "avatar"
                 });
                 result2 = await User.findOneAndUpdate({_id: newUser._id},
                         { 
