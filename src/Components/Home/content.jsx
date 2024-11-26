@@ -27,7 +27,7 @@ const Content = ({data, setData, isChecked, input, range}) => {
         const fetch = async() => {
             // on recupere le nombre de page qu'on devra avoir celon les filtres et on le stocke sous forme de tableau dans pageLength 
             const querylength = `?title=${input}&priceMin=${range[0]}&priceMax=${range[1]}&sort=${isChecked ? "price-desc" : "price-asc"}`
-            const numberOfPages = await axios.get('http://localhost:8000/offerNumber'+querylength);
+            const numberOfPages = await axios.get('https://site--test-backend--7g4fljlbl5js.code.run/offerNumber'+querylength);
             const result = numberOfPages.data;
             const resultFinal = []            
             for(let i = 0; i < result; i++) {
@@ -36,7 +36,7 @@ const Content = ({data, setData, isChecked, input, range}) => {
             setPageLength(resultFinal)   
             // on recupere les resultat selon les filtres et la page acutels
             const query = `?title=${input}&priceMin=${range[0]}&priceMax=${range[1]}&sort=${isChecked ? "price-desc" : "price-asc"}&page="${currentPage}"`
-            const response = await axios.get('http://localhost:8000/offers'+query)
+            const response = await axios.get('https://site--test-backend--7g4fljlbl5js.code.run/offers'+query)
             let newData = {...data}
             newData.offers = response.data          
             setData(newData)

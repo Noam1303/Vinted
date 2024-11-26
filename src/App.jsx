@@ -37,7 +37,7 @@ function App() {
           if(token){
             // si token existe, alors on recupere le user grace au token mis dans le cookie, 
             // et on place les valeur de l'id du user, ainsi que son nom et son token dans user
-            const response = await axios.get("http://localhost:8000/user/"+token)
+            const response = await axios.get("https://site--test-backend--7g4fljlbl5js.code.run/user/"+token)
             const result = [response.data._id, response.data.account.username, response.data.token]
             console.log(result);
             setUser(result)
@@ -59,7 +59,7 @@ function App() {
   // on stocke tout les poste dans data, par ordre croissant celon le prix, et on met setLoading(true)
   // j'ai mis cela dans un autre useEffect qui lui aussi se lance uniquement au lancement et au refresh pour bien separer les deux
   const fetchData = async() => {
-    const response = await axios.get('http://localhost:8000/offers')
+    const response = await axios.get('https://site--test-backend--7g4fljlbl5js.code.run/offers')
     const sortedData = {
       ...response.data,
       offers: response.data.sort((a, b) => a.product_price - b.product_price),

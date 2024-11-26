@@ -47,12 +47,12 @@ const Create = ({Cookies, setUser}) => {
                 formData.append('password', password);          
                 formData.append('newsletter', checkbox);
                 formData.append('file', file);
-                const response = await axios.post('http://localhost:8000/user/signup',formData)
+                const response = await axios.post('https://site--test-backend--7g4fljlbl5js.code.run/user/signup',formData)
                 if(response.status === 200){
                     Cookies.set("token", response.data.token, {expires: 7})
                     const token = Cookies.get("token");
                     if(token){
-                        const response = await axios.get("http://localhost:8000/user/"+Cookies.get("token"))
+                        const response = await axios.get("https://site--test-backend--7g4fljlbl5js.code.run/user/"+Cookies.get("token"))
                         const result = [response.data._id, response.data.account.username, response.data.token]
                         console.log(result);
                         setUser(result)

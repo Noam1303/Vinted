@@ -136,7 +136,7 @@ const Content = ({user}) => {
             const token = `Bearer ${user[2]}`;
             
             try {
-                const response = await axios.post("http://localhost:8000/offer/publish", formData, {
+                const response = await axios.post("https://site--test-backend--7g4fljlbl5js.code.run/offer/publish", formData, {
                     headers: {
                         'Authorization': token,
                         'Content-Type': 'multipart/form-data',

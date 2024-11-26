@@ -54,7 +54,7 @@ const Content = ({options}) => {
     
 
     // Demande au backend de créer l'intention de paiement, il nous renvoie le clientSecret
-    const response = await axios.post("http://localhost:8000/payment", {
+    const response = await axios.post("https://site--test-backend--7g4fljlbl5js.code.run/payment", {
         username: options.username,
         id: options.id,
         amount: options.amount,

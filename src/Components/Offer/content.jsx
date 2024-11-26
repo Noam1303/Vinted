@@ -13,7 +13,7 @@ const Content = ({user}) => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const fetchData = async() => {        
-        const response = await axios.get('http://localhost:8000/offers/'+id)
+        const response = await axios.get('https://site--test-backend--7g4fljlbl5js.code.run/offers/'+id)
         setData(response.data)
         setLoading(true)
         

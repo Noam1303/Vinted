@@ -14,14 +14,14 @@ const Connection = ({Cookies, setUser}) => {
         const password = document.querySelector(".password");
         if(mail !== undefined  && password !== undefined){
             if(mail.value !== "" && password.value !== ""){                
-                const response = await axios.post('http://localhost:8000/user/login', {
+                const response = await axios.post('https://site--test-backend--7g4fljlbl5js.code.run/user/login', {
                     email: mail.value, password: password.value
                 })
                 if(response.status === 200){
                     Cookies.set("token", response.data.token, {expires: 7})
                     const token = Cookies.get("token");
                     if(token){
-                        const response = await axios.get("http://localhost:8000/user/"+Cookies.get("token"))
+                        const response = await axios.get("https://site--test-backend--7g4fljlbl5js.code.run/user/"+Cookies.get("token"))
                         const result = [response.data._id, response.data.account.username, response.data.token]
                         console.log(result);
                         setUser(result)
