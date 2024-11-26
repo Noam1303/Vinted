@@ -18,20 +18,21 @@ const { request } = require('http');
 
 const stripe = require("stripe")(process.env.STRIPE);
 
+// configuartion de cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET
 });
 
+// permet de convertir le file en base64
 const convertToBase64 = (file) => {
     return `data:${file.mimetype};base64,${file.data.toString("base64")}`;
 }
 
+// implementation du payment grace a stripe
 router.post("/payment", async (req, res) => {
     try {
-        console.log(req.amount);
-        
         // On crée une intention de paiement
         const paymentIntent = await stripe.paymentIntents.create({
             // Montant de la transaction
@@ -50,6 +51,11 @@ router.post("/payment", async (req, res) => {
         }
 });
 
+// auth permet de verifier si l'utilisateur est connecté
+// si le titre, description ... sont non null, alors on créer des id pour les images et pour la publications
+// on créer le tableau picture_image par défaut en null sauf si les valeurs file1, file2, file3 existe,
+// on créer ensuite la publication.
+// le status est de 200 si tout est bon, 400 si le titre/description est trop long ou price est trop grand ou si les champs ne sont pas tous renseignés
 router.post('/offer/publish', auth, fileUpload(), async(req, res) => {
     try{    
         const title = req.body.title;
@@ -74,6 +80,8 @@ router.post('/offer/publish', auth, fileUpload(), async(req, res) => {
                 length: 24,
             })
             const pictureToUpload = [req.body.file1, req.body.file2, req.body.file3]            
+            console.log(pictureToUpload);
+            
             const picture = []
             for(let i = 0; i < 3; i++){
                 const idImage = password.generate({
@@ -82,12 +90,12 @@ router.post('/offer/publish', auth, fileUpload(), async(req, res) => {
                     uppercase: false, // Exclure les lettres majuscules
                     symbols: false,    // Exclure les symboles
                     length: 24,
-                })                
-                if(pictureToUpload[i] !== ',,,'){
+                })      
+                if(pictureToUpload[i] !== ',,,') {
                     const result = await cloudinary.uploader.upload(pictureToUpload[i], {
                         folder: "Vinted/offer/"+req.user._id+id,
                         public_id: idImage
-                    });
+                    });                    
                     picture.push([result.public_id, result.secure_url, result.width, result.height])
                 }
                 else {
@@ -134,6 +142,7 @@ router.post('/offer/publish', auth, fileUpload(), async(req, res) => {
             const offer = await Offer.findById(newOffer._id);
             res.status(200).json(offer)
         }
+        else res.status(400).json({message: "certains champs ne sont pas renseignés"})
     }
     catch(error){
         console.error(error);
@@ -142,12 +151,26 @@ router.post('/offer/publish', auth, fileUpload(), async(req, res) => {
     
 })
 
+// permet de recuperer le nombre de page qu'il faut avoir selon les filtres en query
+// status 200 si tout est bon
 router.get('/offerNumber', async(req, res) => {
-    const result = await Offer.find();    
-    const pageLength = Math.ceil(result.length/5)+1
-    res.status(200).json({count: pageLength});
+    try{
+        let {title, priceMin, priceMax} = req.query;  
+
+        const result = await Offer.find({product_name: {$regex: title||"", $options: 'i'}, product_price: {$gte: priceMin||0, $lt: priceMax||1000001}}).limit(1000).populate("owner", "account");
+        const resultLength = Math.ceil(result.length/5);
+        
+        res.status(200).json(resultLength);
+    }
+    catch(error){
+        console.error(error);
+        res.status(500).json({message: "Erreur lors de la récupération des annonces"})
+    }
 })
 
+// recupere les filtres dans le query, on initialise les bonnes valuers selon les query
+// on renvoie le result selon les query envoyés
+// status 200 si tout est bon
 router.get('/offers', async(req, res) => {
     try{
         let {title, priceMin, priceMax, sort, page} = req.query;  
@@ -185,7 +208,8 @@ router.get('/offers', async(req, res) => {
     }
 })
 
-
+// si on trouve l'il dans la base de données, alors on renvoie l'article avec status 200,
+// 404 si on ne trouve pas l'article et 400 si l'id n'est pas renseigné
 router.get('/offers/:id', async(req, res) => {
     try{
         const id = req.params.id;        
@@ -204,6 +228,9 @@ router.get('/offers/:id', async(req, res) => {
     }
 })
 
+// auth permet de verifier si l'utilisateur est connecté
+// permet de delete une offre selon l'id
+// status 200 si tout est bon, 404 si l'offre n'exsite pas dans la base de données, 400 si l'id n'est pas renseignés
 router.delete('/offer/:id', auth, async(req, res) => {
     try {
         const id = req.params.id
@@ -226,6 +253,10 @@ router.delete('/offer/:id', auth, async(req, res) => {
     }
 })
 
+// auth permet de verifier si l'utilisateur est connecté
+// permet de modifier une offre selon l'id
+// le product_image n'est pas a jour, car elle n'y a qu'un seul image possible... 🤡
+// status 200 si tout est bon, 404 si l'offre n'exsite pas dans la base de données, 400 si l'id n'est pas renseignés
 router.put("/offer/:id", auth, fileUpload(),  async (req, res) => {
     try {
         const id = req.params.id;
@@ -250,7 +281,7 @@ router.put("/offer/:id", auth, fileUpload(),  async (req, res) => {
                     const result = await cloudinary.uploader.destroy('Vinted/offer/'+req.user._id+'/'+id);
                     console.log(result);
                     if(result.result !== "ok"){
-                        console.log("echec de la supression de l'image");
+                        console.log("echec de la modification de l'image");
                     }
                     else {
                         image = await cloudinary.uploader.upload(convertToBase64(pictureToUpload), {

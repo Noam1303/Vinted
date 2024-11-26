@@ -1,0 +1,42 @@
+.hero-container {
+    /* dimensionne le container du hero */
+    height: 50vh;
+    margin-bottom: 50px;
+}
+
+.hero {
+    /* dimensionne l'image et fait en sorte que l'image ne change pas de résolution par rapport à la résolution de l'ecran de l'utilisateur */
+    width: 100%;
+    height: 50vh;
+    object-fit:cover;
+}
+
+.dechirure {
+    /* positionne la bande de déchirure */
+    position: relative;
+    top: -90px
+}
+
+.tri {
+    /* positionne et dimensionne le container dans le hero */
+    padding: 20px;
+    margin: 20px;
+    position: relative;
+    width: 15vw;
+    height: 20vh;
+    background-color: white;
+    top: -500px;
+    left: 200px;
+    border-radius: 5px;
+    border: solid rgb(202, 202, 202) 1px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.start-sell {
+    /* le bouton dans le .tri */
+    margin: 0;
+    width: 200px;
+}

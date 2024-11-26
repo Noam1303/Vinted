@@ -1,0 +1,74 @@
+.content-home-container {
+    /* dimensionne et place le container du content*/
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.content-home-container-snd {
+    /* dimensionne et place le content */
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+
+.item {
+    /* dimensionne et place chaque post */
+    height: 500px;
+    width: 240px;
+    margin: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.item-username, .item-taille, .item-brand {
+    /* dimensionne et place les info du post */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: rgb(167, 165, 165);
+    font-size: 12px;
+}
+
+.item-username{
+    margin-bottom: 5px;
+}
+
+.user-avatar {
+    /* dimensionne et place la photo de profil du suer qui a poster */
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    border-radius: 20px;
+}
+
+.item-img {
+    /* dimensionne et place l'image du post */
+    height: 350px;
+    width: 240px;
+    object-fit: cover;
+}
+
+.page-container {
+    /* dimensionne le container des button de page */
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.page {
+    /* dimensionne et place un button de page */
+    margin: 3;
+    background-color: rgb(233, 231, 231);
+    color: black;
+    width: 30px;
+    height: 30px;
+    border: solid transparent 0px;
+}

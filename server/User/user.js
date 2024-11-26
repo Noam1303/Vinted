@@ -11,16 +11,23 @@ const { request } = require('http');
 
 router.use(express.json());
 
+// configuration du cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET
 });
 
+// permet de convertir le file en base64, je n'ai finalement pas besoin de l'utilisé dans ce fichier
 const convertToBase64 = (file) => {
     return `data:${file.mimetype};base64,${file.data.toString("base64")}`;
 }
 
+// on verifie si les données req.body sont non null, on converti newsletter en true ou false selon sa valeur initial
+// on créer un token, un hash qui est le mot de passe encrypté avec un une chaine de caracteres encryptée 
+// si le mail n'existe pas deja dans la base de données, alors on créer un user, et on le modifie apres pour ajouter un avatar,
+// l'avatar est créer dans un second temps car je recuperer l'id de l'user pour le mettre dans cloudinary
+// si tout est bon , alors envoie un status 200, 409 si le mail existe déjà, 400 si les champs ne sont pas renseigner
 router.post("/user/signup", fileUpload(), async(req, res) => {
     try{        
         const username = req.body.username;
@@ -99,13 +106,14 @@ router.post("/user/signup", fileUpload(), async(req, res) => {
     }
 })
 
+
+// si le token existe et non vide, alors ca renvoie l'utilisateur correspondant au token
+// status 200 si tout est bon, 404 si le token n'existe pas dans la base donnée, 400 si il n'y a pas de token renseingés
 router.get("/user/:token", async(req, res) => {
     try{
         const token = req.params.token
         if(token && token.trim() !== ""){
-            console.log(token);
             const result = await User.findOne({token: token});
-            console.log(result);
             if(result) {
                 res.status(200).json({
                     _id: result._id,
@@ -134,7 +142,9 @@ router.get("/user/:token", async(req, res) => {
     }
 })
 
-
+// si le mai lest le password est non vide, alors on regarde si le mail existe dans la base données, si c'est le cas, 
+// alors on decrytpe le mot de passe du user pour le comparer au mot de passe de la personne essayant de se connecter
+// si les 2 mdp sont egaux, alors on renvoie un status 200, sison 404 si le mdp n'est pas bon, sinon 400 si les champs ne sont pas renseignés
 router.post("/user/login", async(req, res) => {
     try{
         const {email, password} = req.body;

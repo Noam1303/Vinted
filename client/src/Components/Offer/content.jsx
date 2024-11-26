@@ -2,12 +2,14 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-const Content = () => {
+const Content = ({user}) => {
 
     const navigate = useNavigate()
 
     const id = useParams().id
+    // on recupere via le paramms de l'url l'id
 
+    // je recréer un useState data avec son loading, car on va charger une seul offre, même chose sinon que dans App.jsx
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const fetchData = async() => {        
@@ -22,6 +24,7 @@ const Content = () => {
     }, [])
 
     return(
+        // affichage de l'offre
         <div className="content-offer-container">
             {loading ?                 
                     <div className="item-single">
@@ -93,7 +96,9 @@ const Content = () => {
                                         {data.owner.account.username}
                                     </div>
                                 </div>
-                                <button className='acheter' onClick={() => {navigate('/payment', {
+                                {/* on passe en "params" les info de l'article et du vendeur pour aller a la page de payment, 
+                                si la personne n'est pas connecté (on ne sait comment), alors elle est renvoyé vers la page login */}
+                                <button className='acheter' onClick={() => {user.length !== 0 ? navigate('/payment', {
                                     state: {
                                         id: id,
                                         username: data.owner.account.username,
@@ -102,7 +107,10 @@ const Content = () => {
                                         product_description: data.product_description,
                                         product_details: data.product_details,
                                         product_image: data.product_image,
-                                    }})}}>
+                                    }})
+                                    :navigate('/login')
+                                }
+                                }>
                                 Acheter
                                 </button>
                             </div>

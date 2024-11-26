@@ -1,0 +1,62 @@
+
+.payment-container {
+    /* dimensionne et place le container du form */
+    background-color: rgb(231, 229, 229);
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    min-height: calc(90vh - 7px);
+    height: calc(90% - 7px);
+}
+
+.payment-form {
+    /* dimensionne et place contenu du form */
+    padding: 40px;
+    height: 80%;
+    width: 20vw;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.payment-form > h4 {
+    /* dimensionne et place le texte en haut du form */
+    margin: 10px;
+    margin-bottom: 30px;
+    color: rgb(202, 201, 201);
+    font-weight: 100;
+}
+
+.payment-form > div {
+    /* dimensionne et place les div dans le formulaire */
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.payment-form > section {
+    /* place le trait gris au dessus de total */
+    margin: 10px;
+    margin-left: -40px;
+    border: solid rgb(231, 229, 229) 1px;
+    border-bottom: rgb(231, 229, 229);
+    width: 40vw;
+}
+
+.payment-form > nav {
+    /* dimensionne et place l'onglet de payment */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.green {
+    /* dimensionne et place le bouton de payment */
+    margin: 0;
+    margin-top: 10px;
+    background-color: rgb(11, 197, 11);
+    color: white;
+    width: 100%;
+    padding: 10px;
+}

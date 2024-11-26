@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Dropzone from 'react-dropzone'
@@ -8,6 +8,13 @@ import Dropzone from 'react-dropzone'
 const Content = ({user}) => {
 
     const navigate = useNavigate();
+
+    // si l'user se deconnecte pendant qu'il est sur la page publish, alors sa quitte la page actuelle pour aller vers la page login
+    useEffect(() => {
+        if(user.length === 0){
+            navigate('/login')
+        }
+    }, [user])
 
     const [file, setFile] = useState([]);
     const [title, setTitle] = useState("");
@@ -19,20 +26,30 @@ const Content = ({user}) => {
     const [couleur, setCouleur] = useState("");
     const [emplacement, setEmplacement] = useState("");
     const [check, setCheck] = useState(false);
+    // on initialise les useState suivant:
+    // file, qui permettera de stocker le/les file(s) donnée par le (futur) vendeur
+    // title, qui permettera de stocker le titre de l'article
+    // price, qui permettera de stocker le prix de l'article
+    // description, qui permettera de stocker la description de l'article
+    // marque, qui permettera de stocker la marque de l'article
+    // size, qui permettera de stocker la taille de l'article
+    // condition, qui permettera de stocker l'état de l'article
+    // couleur, qui permettera de stocker la couleur de l'article
+    // emplacement, qui permettera de stocker l'emplacement (ville...) de l'article
+    // check, qui permettera de stocker si la checkbox est cochée ou non
 
     const handleChangeFile = (File) => {
-        
         if (File) {
             if (File.type !== "image/jpeg" && File.type !== "image/png") {
+                // si le file n'est pas de type jpeg ou png, alors on met une alert (😠)
                 alert("File Type is not an image");
                 return
             } 
             if(file.length >= 3){
+                // seulement 3 images pour un post (choisi arbitrairement 🖐️)
                 alert("Vous ne pouvez pas ajouter plus de 3 images");
                 return
-            }
-            console.log(File);
-            
+            }            
             const reader = new FileReader(); // Créer une instance FileReader
             reader.onload = () => {
                 console.log("image stocked" + reader.result);
@@ -44,6 +61,7 @@ const Content = ({user}) => {
         }
     };
 
+    // tout les handlChange permette de mofidier les useState respectif selon les value des inputs respectifs
     const handleChangeTitle = () => {
         const title = document.querySelector(".title-publish-input").value
         setTitle(title)
@@ -89,6 +107,9 @@ const Content = ({user}) => {
         setCheck(check)
     }
 
+    // permet de gerer quand on clique sur publier, verifie si tout les inputs sont vides ou non, si oui alors ca renvoie une alert (😠)
+    // si non alors on incremente (ou non) le tableau file, puis on envoie une requete, si le status renvoyer par le backend est 200, alors 
+    // l'utilisateur est renvoyé vers la page de l'offre, sinon alert (😠)
     const handleSubmit = async () => {                
         if (file.length !== 0 && title && description && price && marque && size && condition && couleur && emplacement) {
             const formData = new FormData();
@@ -147,6 +168,7 @@ const Content = ({user}) => {
                 Vends ton article 
             </h4>
                     <div className="file-upload">
+                    {/* dropzone permet à l'utilisateur de donner son fichier en glissant le fichier ou en cliquant sur le dropzone et en selectionnant */}
                     <Dropzone id="dropzone" type="image/jpeg" onDrop={
                         (acceptedFiles) => {
                             acceptedFiles.forEach((file) => {

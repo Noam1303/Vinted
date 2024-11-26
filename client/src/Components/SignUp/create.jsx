@@ -9,11 +9,13 @@ const Create = ({Cookies, setUser}) => {
     const navigate = useNavigate()
 
     const [file, setFile] = useState([]);
+    // useState qui stockera une image si l'utilisateur qui créer le compte choisi de le faire
 
     const handleChangeFile = (File) => {
         
         if (File) {
             if (File.type !== "image/jpeg" && File.type !== "image/png") {
+                // si le fichier n'est pas une image, alors alert ! (😠😠)
                 alert("File Type is not an image");
                 return
             }           
@@ -28,6 +30,8 @@ const Create = ({Cookies, setUser}) => {
         }
     };
 
+    // quand le bouton s'incrire est pressé, alors onn verifie d'abord que tout les inputs sont non vides, si c'est le cas on envoie une requete au serveur,
+    // si le status est des de 200, alors on stocke les données dans le cookies et dans le user, l'utilisateur est renvoyé à la page publish
     const handleSubmit = async() => {
         const name = document.querySelector(".name").value;
         const mail = document.querySelector(".mail").value;
@@ -73,7 +77,8 @@ const Create = ({Cookies, setUser}) => {
                 <input className="name" type="text" placeholder="Nom d'utilisateur" />
                 <input className="mail" type="text" placeholder="Email" />
                 <input className="password" type="password" placeholder="Mot de passe" />
-                <Dropzone id="dropzone" type="image/jpeg" onDrop={
+                    {/* dropzone permet à l'utilisateur de donner son fichier en glissant le fichier ou en cliquant sur le dropzone et en selectionnant */}
+                    <Dropzone id="dropzone" type="image/jpeg" onDrop={
                         (acceptedFiles) => {
                             acceptedFiles.forEach((file) => {
                                     handleChangeFile(file)

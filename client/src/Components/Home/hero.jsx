@@ -13,6 +13,7 @@ const Hero = ({user}) => {
                 <h1>
                     Prêts à faire du tri dans vos placards ?
                 </h1>
+                {/* si l'utilisateur est connecter, alors il sera rediriger vers signup, sinon vers publish */}
                 <button className="start-sell" onClick={() => {user.length === 0 ? navigate('/signup') : navigate('/publish')}}>Commencer à vendre</button>
             </div>
         </div>

@@ -1,0 +1,212 @@
+header {
+    /* permet de dimensionner tout les headers, et centrer les elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.header-container, .content-home-container-snd {
+    /* permet de dimensionner le contenu des headers et du content dans home pour qu'ils aient la même largeur*/
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    /* on dimensionne le logo */
+    cursor: pointer;
+    width: 100px;
+    object-fit: contain;
+}
+
+.filtre {
+    /* on dimensionne les filtres (searchbar, sort et range) */
+    width: 30vw;
+    margin-left: 50px;
+    margin-right: 30px;
+}
+
+.filtre-not-home {
+    /* la même chose, sauf que elle est accès sur tout les filtres sauf celui de home */
+    display: flex;
+    width: 30vw;
+    margin-left: 50px;
+    margin-right: 30px;
+}
+
+.glass {
+    /* on place et dimensionne la loupe dans la searchbar */
+    cursor:pointer;
+    height: 30px;
+    color: rgb(204, 203, 203);
+    background-color: rgb(245, 245, 245);
+    border-radius: 5px;
+    width: 3%;
+    padding: 10px;
+    position: relative;
+    top: 60px;
+    right: 30px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.glass-not-home {
+    /* la même chose sauf que ca s'applique a toutes les loupes sauf celui de home */
+    cursor:pointer;
+    height: 30px;
+    color: rgb(204, 203, 203);
+    background-color: rgb(245, 245, 245);
+    border-radius: 5px;
+    width: 3%;
+    padding: 10px;
+    position: relative;
+    top: 20px;
+    right: -10px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.searchbar {
+    /* on dimensionne et place la barre de recherche */
+    caret-color: gray;
+    height: 30px;
+    background-color: rgb(245, 245, 245);
+    border: solid transparent 0px;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.searchbar-not-home {
+    /* la même chose qui s'applique a tout les barres de recherche sauf celui de home */
+    caret-color: gray;
+    height: 30px;
+    background-color: rgb(245, 245, 245);
+    border: solid transparent 0px;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.searchbar:focus, .searchbar-not-home:focus{
+    /* permet d'enlever le bord noir quand on clique sur les searchbar */
+    outline: none;
+}
+
+
+.filtre-prix {
+    /* permet de dimensionner les ranges */
+    margin-left: -30px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.checkbox-container {
+    /* dimension du checkbox de sort */
+    display: flex;
+    width: 40%;
+}
+/* Tout le reste permet de faire une transition quand on appuie sur le bouton de sort, et aussi de dimensionner et de placer le label ainsi que la checkbox */
+.handleCheck {
+    margin-left: -40px;
+    position: relative;
+    z-index: 1;
+    top: -10px;
+    left: 45px;
+    width: 50px;
+    height: 40px;
+    opacity: 0;
+}
+
+.handleCheck+label {
+    margin-top: -0px;
+    margin-left: 3px;
+    display: block;
+    position: relative;
+    margin-bottom: 1.2em;
+}
+
+.handleCheck:checked+label.check:before {
+    background: rgb(20, 168, 194);
+}
+
+.handleCheck+label:before {
+    content: '';
+    display: inline-block;
+    width: 2.5em;
+    vertical-align: middle;
+    height: 1em;
+    background-color: rgb(20, 168, 194);
+    border-radius: .5em;
+    margin-right: 1em;
+    margin-top: 3px;
+    transition: all .5s ease;
+}
+
+.handleCheck:checked+label.check:after {
+    background: rgb(18, 139, 160);
+    display: flex;
+    justify-content: center;
+    content: '↑';
+    transform: translateX(100%);
+}
+
+.handleCheck+label:after {
+    content: '↓';
+    color: white;
+    display: flex;
+    justify-content: center;
+    width: 1.3em;
+    height: 1.3em;
+    background-color: rgb(18, 139, 160);
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+    left: -1px;
+    transition: all .5s ease;
+    -webkit-box-shadow: 6px 6px 21px -5px rgba(0, 0, 0, 0.61);
+    -moz-box-shadow: 6px 6px 21px -5px rgba(0, 0, 0, 0.61);
+    box-shadow: 6px 6px 21px -5px rgba(0, 0, 0, 0.61);
+}
+
+.range-container {
+    /* dimensionne et place le container de la barre du range */
+    position: relative;
+    width: 300px; 
+}
+
+.range {
+    /* dimensionne et place la barre du range et les result au dessus de la barre */
+    margin-left: 10px;
+    width: 100%;
+}
+
+.range-input {
+    /* dimensionne et place la barre du range uniquement */
+    margin-top: 10px;
+    width: 100%;
+}
+
+.range-result {
+    /* dimensionne et place les result au dessus de la barre uniquement */
+    position: absolute;
+    top: 30px;
+    transform: translateX(-50%);
+    white-space: nowrap; 
+}
+
+.connection-button-container {
+    /* dimensionne et place les boutons de connections */
+    width: 20%;
+    margin-left: 10px;
+    display: flex;
+}

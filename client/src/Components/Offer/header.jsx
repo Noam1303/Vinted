@@ -7,7 +7,7 @@ const Header = ({Cookies, user, setUser, input, setInput}) => {
 
     const navigate = useNavigate()
 
-
+    // on change le input selon la value de searchbar
     const handleChange = (e) => {
         e.preventDefault();
         setInput(e.target.value);
@@ -37,6 +37,7 @@ const Header = ({Cookies, user, setUser, input, setInput}) => {
                     <button className="deconnection-button" onClick={() => {Cookies.remove('token'); setUser([])}}>Se déconnecter</button>
                 </div>
                 )}
+                {/* si l'utilisateur est connecter, alors il sera rediriger vers publish, sinon vers login */}
                 <button className="vends" onClick={() => {user.length !== 0 ? navigate('/publish') : navigate('/login')}}>Vends tes articles</button>
             </div>
         </header>

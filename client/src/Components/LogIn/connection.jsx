@@ -7,7 +7,8 @@ const Connection = ({Cookies, setUser}) => {
 
     const navigate = useNavigate()
 
-
+    // on verifie si les inputs sont non vides, si c'est le cas alors on lance la requete vers le backend pour login, si le serveur renvoie le status 200 alors 
+    // on stocke dans le cookies le token , et on stocke des infos du user dans le user
     const handleSubmit = async() => {
         const mail = document.querySelector(".mail");
         const password = document.querySelector(".password");

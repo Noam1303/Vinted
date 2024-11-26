@@ -1,0 +1,128 @@
+
+.content-offer-container {
+    /* dimensionne et place le container du container du post*/
+    height: calc(90vh - 7px);
+    background-color: rgb(202, 201, 201);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.item-single {
+    /* dimensionne et place un post */
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-around;
+    width: 60vw;
+    height: 60vh;
+}
+
+.item-single-img {
+    /* dimensionne et place l'image du post */
+    display: flex;
+    flex-wrap: wrap;
+    width: 40%;
+}
+
+.item-single-img-item:nth-child(1) {
+    /* dimensionne la premiere image du post */
+    width: 100%;
+    object-fit: cover;
+
+}
+
+.item-single-img-item:nth-child(2) {
+    /* dimensionne la deuxieme image du post */
+    width: 50%;
+    object-fit: cover;
+
+}
+
+.item-single-img-item:nth-child(3) {
+    /* dimensionne la troisieme image du post */
+    width: 50%;
+    object-fit: cover;
+
+}
+
+.item-single-price {
+    /* dimensionne la taille du texte du prix du post */
+    font-size: 25px;
+}
+
+.item-single-content-container {
+    /* dimensionne et place le post */
+    padding: 40px;
+    margin-left: 10px;
+    width: 300px;
+    background-color: white;
+}
+
+.details {
+    /* dimensionne et place les details du l'offre (price, marque, taille...) */
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-bottom: solid gray 1px;
+}
+
+.details-detail {
+    /* dimensionne et place  la marque, la taille...*/
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+}
+
+.marque, .couleur, .taille, .etat, .emplacement {
+    /* place les differents input de details-detail */
+    margin-top: 7px;
+    display: flex;
+    justify-content: flex-start;
+}
+/* on place le texte des inputs */
+.marque > p, .couleur > p, .taille > p, .etat > p, .emplacement > p {
+    width: 50%;
+    color: rgb(175, 175, 175);
+}
+
+.marque > h4, .couleur > h4, .taille > h4, .etat > h4, .emplacement > h4 {
+    width: 50%;
+    color: rgb(92, 91, 91);
+}
+
+.item-product-description {
+    /* dimensionne et place le username et l'avatar du vendeur */
+    color: gray;
+    width: 310px;
+    word-wrap: break-word;
+}
+
+.details-description {
+    /* dimensionne et place le titre, description, username, avatar et le bouton acheter */
+    height: 60%;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.details-description > div > div{
+    /* place le differentes div de div */
+    margin-top: 20px;
+}
+
+.details-description > div {
+    /* place le differentes div */
+    margin-top: 10px;
+}
+
+.acheter {
+    /* dimensionne et place le bouton acheter */
+    display: flex;
+    margin: 0;
+    margin-top: 60px;
+    width: 70%;
+    justify-content: center;
+}
